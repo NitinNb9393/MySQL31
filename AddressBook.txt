@@ -1,0 +1,230 @@
+MySQL Shell 8.0.27
+
+Copyright (c) 2016, 2021, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \connect root@localhost:3306
+Creating a session to 'root@localhost:3306'
+Fetching schema names for autocompletion... Press ^C to stop.
+Your MySQL connection id is 18
+Server version: 8.0.27 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > show databases;
++--------------------+
+| Database           |
++--------------------+
+| addressbookservice |
+| information_schema |
+| mysql              |
+| payroll_service    |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.0013 sec)
+--------------------------------------------------------------------------------------------------------------------------------------
+#UC1
+#Create address book service database
+
+ MySQL  localhost:3306 ssl  SQL > create database AddressBookServiceNew;
+Query OK, 1 row affected (0.0169 sec)
+ MySQL  localhost:3306 ssl  SQL > use AddressBookServiceNew;
+Default schema set to `AddressBookServiceNew`.
+Fetching table and column names from `addressbookservicenew` for auto-completion... Press ^C to stop.
+--------------------------------------------------------------------------------------------------------------------------------------
+#UC2
+#Ability to create a Address Book Table with first andlast names, address, city,state, zip, phone numberand email as its attributes. 
+
+MySQL  localhost:3306 ssl  addressbookservicenew  SQL > create table AddressBookServiceNew(
+                                                      -> firstName VARCHAR(30) NOT NULL,
+                                                      -> LastName VARCHAR(30) NOT NULL,
+                                                      -> address VARCHAR(50) NOT NULL,
+                                                      -> city VARCHAR(20) NOT NULL,
+                                                      -> state VARCHAR(20) NOT NULL,
+                                                      -> zip VARCHAR(10) NOT NULL,
+                                                      -> phoneNo VARCHAR(15) NOT NULL,
+                                                      -> email VARCHAR(25) NOT NULL,
+                                                      -> PRIMARY KEY (firstName));
+Query OK, 0 rows affected (0.0819 sec)
+ MySQL  localhost:3306 ssl  addressbookservicenew  SQL > describe AddressBookServiceNew;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| firstName | varchar(30) | NO   | PRI | NULL    |       |
+| LastName  | varchar(30) | NO   |     | NULL    |       |
+| address   | varchar(50) | NO   |     | NULL    |       |
+| city      | varchar(20) | NO   |     | NULL    |       |
+| state     | varchar(20) | NO   |     | NULL    |       |
+| zip       | varchar(10) | NO   |     | NULL    |       |
+| phoneNo   | varchar(15) | NO   |     | NULL    |       |
+| email     | varchar(25) | NO   |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+8 rows in set (0.0185 sec)
+----------------------------------------------------------------------------------------------------------------------------------
+#UC3
+#Ability to insert new Contacts to Address Book
+
+ MySQL  localhost:3306 ssl  addressbookservicenew  SQL > insert into AddressBookServiceNew (firstName,LastName,address,city,state,zip,phoneNo,email) values 
+                                                         ("Aditya","Bhandari","MIDC area","Solapur","Maharastra","413006","5464824536","aditya@gmail.com"), 
+							 ("Rahul","Yaldandi","Balewadi","Pune","Maharastra","41101","1452536985","rahul@gmail.com"), 
+							 ("Nitin","Balingal","Adharsh Nagar","Solpaur","Maharastra","413006","7840901876","nitin@gmail.com"), 
+							("Vaiju","Adam","old kumbhari","SOlpaur","Maharastra","413005","4578658912","vaiju@gmail.com");
+4 rows in set (0.0234 sec)
+-------------------------------------------------------------------------------------------------------------------------------------
+#UC4
+#Ability to edit existing contact person using their name.
+
+ MySQL  localhost:3306 ssl  addressbookservicenew  SQL > update addressbookservicenew set phoneNo = "4578652594" where
+                                                      -> firstName="Nitin";
+Query OK, 1 row affected (0.0120 sec)
+
+Rows matched: 1  Changed: 1  Warnings: 0
+ MySQL  localhost:3306 ssl  addressbookservicenew  SQL > select * from addressbookservicenew ;
++-----------+----------+---------------+---------+------------+--------+------------+------------------+
+| firstName | LastName | address       | city    | state      | zip    | phoneNo    | email            |
++-----------+----------+---------------+---------+------------+--------+------------+------------------+
+| Aditya    | Bhandari | MIDC area     | Solapur | Maharastra | 413006 | 5464824536 | aditya@gmail.com |
+| Nitin     | Balingal | Adharsh Nagar | Solpaur | Maharastra | 413006 | 4578652594 | nitin@gmail.com  |
+| Rahul     | Yaldandi | Balewadi      | Pune    | Maharastra | 41101  | 1452536985 | rahul@gmail.com  |
+| Vaiju     | Adam     | old kumbhari  | SOlpaur | Maharastra | 413005 | 4578658912 | vaiju@gmail.com  |
++-----------+----------+---------------+---------+------------+--------+------------+------------------+
+4 rows in set (0.0010 sec)
+ MySQL  localhost:3306 ssl  addressbookservicenew  SQL > update addressbookservicenew set email="nitin@gmail.com" where  firstName="Naval";
+Query OK, 1 row affected (0.0115 sec)
+
+Rows matched: 1  Changed: 1  Warnings: 0
+ MySQL  localhost:3306 ssl  addressbookservicenew  SQL > select * from addressbookservicenew ;
++-----------+----------+---------------+---------+------------+--------+------------+------------------+
+| firstName | LastName | address       | city    | state      | zip    | phoneNo    | email            |
++-----------+----------+---------------+---------+------------+--------+------------+------------------+
+| Aditya    | Bhandari | MIDC area     | Solapur | Maharastra | 413006 | 5464824536 | aditya@gmail.com |
+| Nitin     | Balingal | Adharsh Nagar | Solpaur | Maharastra | 413006 | 4578652594 | nitin@gmail.com  |
+| Rahul     | Yaldandi | Balewadi      | Pune    | Maharastra | 41101  | 1452536985 | rahul@gmail.com  |
+| Vaiju     | Adam     | old kumbhari  | SOlpaur | Maharastra | 413005 | 4578658912 | vaiju@gmail.com  |
++-----------+----------+---------------+---------+------------+--------+------------+------------------+
+4 rows in set (0.0008 sec)
+
+-------------------------------------------------------------------------------------------------------------------------------------
+#UC5
+#Ability to delete person using FirstName
+
+ MySQL  localhost:3306 ssl  addressbookservicenew  SQL > delete from addressbookservicenew where firstName="Rahul";
+Query OK, 1 row affected (0.0110 sec)
+ MySQL  localhost:3306 ssl  addressbookservicenew  SQL > select * from addressbookservicenew ;
++-----------+----------+---------------+---------+------------+--------+------------+------------------+
+| firstName | LastName | address       | city    | state      | zip    | phoneNo    | email            |
++-----------+----------+---------------+---------+------------+--------+------------+------------------+
+| Aditya    | Bhandari | MIDC area     | Solapur | Maharastra | 413006 | 5464824536 | aditya@gmail.com |
+| Nitin     | Balingal | Adharsh Nagar | Solpaur | Maharastra | 413006 | 4578652594 | nitin@gmail.com  |
+| Vaiju     | Adam     | old kumbhari  | SOlpaur | Maharastra | 413005 | 4578658912 | vaiju@gmail.com  |
++-----------+----------+---------------+---------+------------+--------+------------+------------------+
+3 rows in set (0.0077 sec)
+
+-------------------------------------------------------------------------------------------------------------------------------------
+#UC6
+#Ability to Retrieve Person belonging to a City or State from the Address Book
+
+ MySQL  localhost:3306 ssl  addressbookservicenew  SQL > select * from addressbookservicenew where city="Solpaur";
++-----------+----------+---------------+---------+------------+--------+------------+-----------------+
+| firstName | LastName | address       | city    | state      | zip    | phoneNo    | email           |
++-----------+----------+---------------+---------+------------+--------+------------+-----------------+
+| Nitin     | Balingal | Adharsh Nagar | Solpaur | Maharastra | 413006 | 4578652594 | nitin@gmail.com |
+| Vaiju     | Adam     | old kumbhari  | SOlpaur | Maharastra | 413005 | 4578658912 | vaiju@gmail.com |
++-----------+----------+---------------+---------+------------+--------+------------+-----------------+
+2 rows in set (0.0013 sec)
+ MySQL  localhost:3306 ssl  addressbookservicenew  SQL > select * from addressbookservicenew where city="Solapur";
++-----------+----------+-----------+---------+------------+--------+------------+------------------+
+| firstName | LastName | address   | city    | state      | zip    | phoneNo    | email            |
++-----------+----------+-----------+---------+------------+--------+------------+------------------+
+| Nitin     | Bhandari | MIDC area | Solapur | Maharastra | 413006 | 5464824536 | nitin@gmail.com  |
++-----------+----------+-----------+---------+------------+--------+------------+------------------+
+1 row in set (0.0008 sec)
+ MySQL  localhost:3306 ssl  addressbookservicenew  SQL > select * from addressbookservicenew where state="Maharastra";
++-----------+----------+---------------+---------+------------+--------+------------+------------------+
+| firstName | LastName | address       | city    | state      | zip    | phoneNo    | email            |
++-----------+----------+---------------+---------+------------+--------+------------+------------------+
+| Aditya    | Bhandari | MIDC area     | Solapur | Maharastra | 413006 | 5464824536 | aditya@gmail.com |
+| Nitin     | Balingal | Adharsh Nagar | Solpaur | Maharastra | 413006 | 4578652594 | nitin@gmail.com  |
+| Vaiju     | Adam     | old kumbhari  | SOlpaur | Maharastra | 413005 | 4578658912 | vaiju@gmail.com  |
++-----------+----------+---------------+---------+------------+--------+------------+------------------+
+3 rows in set (0.0009 sec)
+-------------------------------------------------------------------------------------------------------------------------------------
+#UC7
+understand size of address book by city or state
+
+ MySQL  localhost:3306 ssl  addressbookservicenew  SQL > select count(city or state) from addressbookservicenew;
++----------------------+
+| count(city or state) |
++----------------------+
+|                    3 |
++----------------------+
+1 row in set (0.0027 sec)
+
+--------------------------------------------------------------------------------------------------------------------------------------
+#UC8
+#Ability to retrieve entries sorted alphabetically by Person’s name for a given city
+
+ MySQL  localhost:3306 ssl  addressbookservicenew  SQL > select firstName, city from addressbookservicenew order by firstName;
++-----------+---------+
+| firstName | city    |
++-----------+---------+
+| Aditya    | Solapur |
+| Nitin     | Solpaur |
+| Vaiju     | kolhapu |
++-----------+---------+
+3 rows in set (0.0007 sec)
+
+--------------------------------------------------------------------------------------------------------------------------------------
+#UC9
+#Ability to identify each Address Book with name and Type.
+
+ MySQL  localhost:3306 ssl  addressbookservicenew  SQL > alter table addressbookservicenew add type varchar(15) after LastName;
+Query OK, 0 rows affected (0.1004 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  addressbookservicenew  SQL > update addressbookservicenew set type="Friend" where firstName="Aditya";
+Query OK, 1 row affected (0.0112 sec)
+
+Rows matched: 1  Changed: 1  Warnings: 0
+ MySQL  localhost:3306 ssl  addressbookservicenew  SQL > update addressbookservicenew set type="Professional" where firstName="Nitin";
+Query OK, 1 row affected (0.0117 sec)
+
+Rows matched: 1  Changed: 1  Warnings: 0
+ MySQL  localhost:3306 ssl  addressbookservicenew  SQL > update addressbookservicenew set type="Family" where firstName="Vaiju";
+Query OK, 1 row affected (0.0104 sec)
+
+Rows matched: 1  Changed: 1  Warnings: 0
+ MySQL  localhost:3306 ssl  addressbookservicenew  SQL > select * from addressbookservicenew ;
++-----------+----------+--------------+---------------+---------+------------+--------+------------+------------------+
+| firstName | LastName | type         | address       | city    | state      | zip    | phoneNo    | email            |
++-----------+----------+--------------+---------------+---------+------------+--------+------------+------------------+
+| Aditya    | Bhandari | Friend       | MIDC area     | Solapur | Maharastra | 413006 | 5464824536 | aditya@gmail.com |
+| Nitin     | Balingal | Professional | Adharsh Nagar | Solpaur | Maharastra | 413006 | 4578652594 | nitin@gmail.com  |
+| vaiju     | Adam     | Family       | old kumbhari  | SOlpaur | Maharastra | 413005 | 4578658912 | vaiju@gmail.com  |
++-----------+----------+--------------+---------------+---------+------------+--------+------------+------------------+
+3 rows in set (0.0080 sec)
+-------------------------------------------------------------------------------------------------------------------------------------
+#UC10
+# COUNT(city) AS NumberOfaddress_book FROM address_book.
+
+ MySQL  localhost:3306 ssl  addressbookservicenew  SQL > select count(type) as Number_Of_Contact_Person
+                                                      -> from addressbookservicenew;
++--------------------------+
+| Number_Of_Contact_Person |
++--------------------------+
+|                        3 |
++--------------------------+
+1 row in set (0.0010 sec)
+ MySQL  localhost:3306 ssl  addressbookservicenew  SQL > select * from addressbookservicenew ;
++-----------+----------+--------------+---------------+---------+------------+--------+------------+------------------+
+| firstName | LastName | type         | address       | city    | state      | zip    | phoneNo    | email            |
++-----------+----------+--------------+---------------+---------+------------+--------+------------+------------------+
+| Aditya    | Bhandari | Friend       | MIDC area     | Solapur | Maharastra | 413006 | 5464824536 | aditya@gmail.com |
+| Nitin     | Balingal | Professional | Adharsh Nagar | Solpaur | Maharastra | 413006 | 4578652594 | nitin@gmail.com  |
+| Vaiju     | Adam     | Family       | old kumbhari  | SOlpaur | Maharastra | 413005 | 4578658912 | vaiju@gmail.com  |
++-----------+----------+--------------+---------------+---------+------------+--------+------------+------------------+
+3 rows in set (0.0008 sec)
+ MySQL  localhost:3306 ssl  addressbookservicenew  SQL >
